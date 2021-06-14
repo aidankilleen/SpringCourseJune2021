@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="TestBean" class="ie.pt.SpringHelloWorld.TestBean">
+        <constructor-arg value="Message from XML file"></constructor-arg>
+    </bean>
+
+<!--
+    <bean id="InMemoryUserDao" class="ie.pt.SpringCourse.InMemoryUserDao"/>
+-->
+
+    <bean id="SqliteUserDao" class="ie.pt.SpringCourse.SqliteUserDao"/>
+
+</beans>
