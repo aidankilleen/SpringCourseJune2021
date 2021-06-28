@@ -13,14 +13,42 @@ import java.util.List;
  */
 public class App 
 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UserDaoException {
 
         System.out.println("Annotation Driven Configutation");
         ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
+        UserDao dao = ctx.getBean(UserDao.class);
+
+        User u = dao.getUser(12);
+        u.display();
+
+        u.setName("CHANGED");
+
+        dao.updateUser(u);
+
+        /*
+        dao.deleteUser(13);
+        System.out.println("user deleted");
+
+         */
+        System.out.println("=========================");
+        List<User> users = dao.getUsers();
+
+        for (User us:users) {
+            us.display();
+        }
+
+        dao.close();
+
+
+
+        /*
         UserService us = ctx.getBean(UserService.class);
 
         System.out.println("count:" + us.getCount());
+        */
+
         /*
         UserDao dao = ctx.getBean(UserDao.class);
 

@@ -6,11 +6,22 @@ import java.util.List;
 
 public class SqliteUserDao implements UserDao {
 
-    protected String connectionString = "jdbc:sqlite:C:/data/SpringCourse/UserDb.db";
+    protected String connectionString;
+    protected String defaultConnectionString = "jdbc:sqlite:C:/data/SpringCourse/UserDb.db";
     protected Connection conn;
 
+    public SqliteUserDao(String connectionString) throws UserDaoException {
+
+        this.connectionString = connectionString;
+        openDatabase();
+    }
     public SqliteUserDao() throws UserDaoException {
 
+        this.connectionString = defaultConnectionString;
+        openDatabase();
+    }
+
+    public void openDatabase() throws UserDaoException {
         try {
             // load jdbc driver into memory
             Class.forName("org.sqlite.JDBC");
@@ -18,10 +29,9 @@ public class SqliteUserDao implements UserDao {
 
         } catch (ClassNotFoundException | SQLException e) {
             throw new UserDaoException("Database not found");
-
         }
-
     }
+
     public void close() {
         try {
             conn.close();
