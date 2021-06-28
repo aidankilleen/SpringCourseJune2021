@@ -1,10 +1,8 @@
 package ie.pt.SpringHelloWorld;
 
-import ie.pt.SpringCourse.InMemoryUserDao;
-import ie.pt.SpringCourse.SqliteUserDao;
-import ie.pt.SpringCourse.User;
-import ie.pt.SpringCourse.UserDao;
+import ie.pt.SpringCourse.*;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
@@ -15,7 +13,30 @@ import java.util.List;
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static void main(String[] args) {
+
+        System.out.println("Annotation Driven Configutation");
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        UserService us = ctx.getBean(UserService.class);
+
+        System.out.println("count:" + us.getCount());
+        /*
+        UserDao dao = ctx.getBean(UserDao.class);
+
+        List<User> users = dao.getUsers();
+
+        for (User u:users) {
+            u.display();
+        }
+
+        dao.close();
+        */
+
+
+    }
+
+    public static void mainOriginal( String[] args )
     {
 
         System.out.println( "Spring Framework Test" );
@@ -34,8 +55,15 @@ public class App
         // UserDao dao = new InMemoryUserDao();
         UserDao dao = ctx.getBean(UserDao.class);
 
-        User u = dao.getUser(2);
-        u.display();
+        User u = null;
+        try {
+            u = dao.getUser(99);
+            u.display();
+        } catch (UserDaoException e) {
+            //e.printStackTrace();
+            // System.out.println("User not found");
+            System.out.println(e.getMessage());
+        }
 
         List<User> users = dao.getUsers();
 

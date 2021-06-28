@@ -31,13 +31,13 @@ public class InMemoryUserDao implements UserDao {
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUser(int id) throws UserDaoException {
         for(User u:users) {
             if (u.getId() == id) {
                 return u;
             }
         }
-        return null;
+        throw new UserDaoException("User not found");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class InMemoryUserDao implements UserDao {
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(int id) throws UserDaoException {
 
         User userToDelete = getUser(id);
         users.remove(userToDelete);

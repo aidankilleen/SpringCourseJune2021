@@ -9,7 +9,7 @@ public class SqliteUserDao implements UserDao {
     protected String connectionString = "jdbc:sqlite:C:/data/SpringCourse/UserDb.db";
     protected Connection conn;
 
-    public SqliteUserDao() {
+    public SqliteUserDao() throws UserDaoException {
 
         try {
             // load jdbc driver into memory
@@ -17,7 +17,8 @@ public class SqliteUserDao implements UserDao {
             conn = DriverManager.getConnection(connectionString);
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            throw new UserDaoException("Database not found");
+
         }
 
     }
@@ -30,11 +31,47 @@ public class SqliteUserDao implements UserDao {
     }
     @Override
     public User addUser(User user) {
-        return null;
+        System.out.println("addUser called()");
+        String sql;
+        if (user.getId() == -1) {
+            sql = "INSERT INTO users(name, email, active) VALUES(?, ?, ?)";
+
+        } else {
+            sql = "INSERT INTO users(name, email, active, id) VALUES(?, ?, ?, ?)";
+        }
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, user.getName());
+            pstmt.setString(2, user.getEmail());
+            pstmt.setBoolean(3, user.isActive());
+
+            if (user.getId() != -1) {
+                pstmt.setInt(4, user.getId());
+            }
+            pstmt.executeUpdate();
+            pstmt.close();
+
+            sql = "select last_insert_rowid()";
+            pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                user.setId(rs.getInt(1));
+            }
+            rs.close();
+            pstmt.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return user;
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUser(int id) throws UserDaoException {
         String sql = "select * from users where id = ?";
         User user = null;
         try {
@@ -53,6 +90,10 @@ public class SqliteUserDao implements UserDao {
             pstmt.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+
+        if (user == null) {
+            throw new UserDaoException("User not found");
         }
         return user;
     }

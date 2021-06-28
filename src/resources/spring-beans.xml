@@ -10,7 +10,7 @@
 <!--
     <bean id="InMemoryUserDao" class="ie.pt.SpringCourse.InMemoryUserDao"/>
 -->
-
     <bean id="SqliteUserDao" class="ie.pt.SpringCourse.SqliteUserDao"/>
+
 
 </beans>
