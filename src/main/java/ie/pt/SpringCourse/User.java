@@ -1,6 +1,13 @@
 package ie.pt.SpringCourse;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="users")
 public class User {
+    @Id
     protected int id;
     protected String name;
     protected String email;

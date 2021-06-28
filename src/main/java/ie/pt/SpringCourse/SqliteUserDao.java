@@ -1,8 +1,11 @@
 package ie.pt.SpringCourse;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class SqliteUserDao implements UserDao {
 

@@ -1,7 +1,10 @@
 package ie.pt.SpringCourse;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class InMemoryUserDao implements UserDao {
 

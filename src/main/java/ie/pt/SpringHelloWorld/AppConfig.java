@@ -9,7 +9,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 @Configuration
+@ComponentScan("ie.pt")
 @PropertySource("classpath:application.properties")
 public class AppConfig {
 
@@ -26,6 +31,15 @@ public class AppConfig {
     }
 
     @Bean
+    public EntityManager getEntityManager() {
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("eightwest");
+        EntityManager em = emf.createEntityManager();
+
+        return em;
+    }
+
+
     public UserDao getUserDao() throws UserDaoException {
         System.out.println(connectionString);
         //return new SqliteUserDao(connectionString);

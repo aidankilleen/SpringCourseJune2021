@@ -20,7 +20,7 @@ public class App
 
         UserDao dao = ctx.getBean(UserDao.class);
 
-        User u = dao.getUser(12);
+        User u = dao.getUser(1);
         u.display();
 
         u.setName("CHANGED");
@@ -28,16 +28,25 @@ public class App
         dao.updateUser(u);
 
         /*
+        u.setName("CHANGED");
+
+        dao.updateUser(u);
+        */
+
+        /*
         dao.deleteUser(13);
         System.out.println("user deleted");
 
          */
+
+
         System.out.println("=========================");
         List<User> users = dao.getUsers();
 
         for (User us:users) {
             us.display();
         }
+
 
         dao.close();
 
